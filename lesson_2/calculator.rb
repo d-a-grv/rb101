@@ -36,66 +36,63 @@ loop do
 end
 
 loop do
-number1 = ''
-number2 = ''
+  number1 = ''
+  number2 = ''
 
-prompt("#{name}, enter first number:")
+  prompt("#{name}, enter first number:")
 
-loop do
-  number1 = gets.chomp
-  
-  break if valid_number?(number1)
-  
-  prompt("Please, enter a valid number:")
-end
+  loop do
+    number1 = gets.chomp
+    break if valid_number?(number1)
+    prompt("Please, enter a valid number:")
+  end
 
-prompt("Now, enter second number:")
+  prompt("Now, enter second number:")
 
-loop do
-  number2 = gets.chomp
+  loop do
+    number2 = gets.chomp
 
-  break if valid_number?(number2)
-  
-  prompt("Please, enter a valid number:")
-end
+    break if valid_number?(number2)
+    prompt("Please, enter a valid number:")
+  end
 
-operator_prompt = <<-MSG
-What would you like to do with these numbers?
-1) add
-2) substract
-3) divide
-4) multiply
-MSG
+  operator_prompt = <<-MSG
+  What would you like to do with these numbers?
+  1) add
+  2) substract
+  3) divide
+  4) multiply
+  MSG
 
-prompt(operator_prompt)
+  prompt(operator_prompt)
 
-operation = ''
+  operation = ''
 
-loop do
-  operation = gets.chomp
+  loop do
+    operation = gets.chomp
 
-  break if valid_operation?(operation)
-  
-  prompt("Please, choose 1, 2, 3 or 4:")
-end
-result =  case operation.downcase
-          when "1"
-            number1.to_i + number2.to_i
-          when "2"
-            number1.to_i - number2.to_i
-          when "3"
-            number1.to_f / number2.to_f
-          when "4"
-            number1.to_i * number2.to_i
-end
+    break if valid_operation?(operation)
+    prompt("Please, choose 1, 2, 3 or 4:")
+  end
 
-prompt("#{operation_message(operation)}...")
+  result =  case operation.downcase
+            when "1"
+              number1.to_i + number2.to_i
+            when "2"
+              number1.to_i - number2.to_i
+            when "3"
+              number1.to_f / number2.to_f
+            when "4"
+              number1.to_i * number2.to_i
+            end
 
-prompt("The result of the culculation is #{result}")
+  prompt("#{operation_message(operation)}...")
 
-prompt("Would you like to do another calculation? (Y to do it again)")
+  prompt("The result of the culculation is #{result}")
 
-repeat = gets.chomp
+  prompt("Would you like to do another calculation? (Y to do it again)")
 
-break unless repeat.downcase.start_with?('y')
+  repeat = gets.chomp
+
+  break unless repeat.downcase.start_with?('y')
 end

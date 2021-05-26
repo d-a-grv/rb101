@@ -1,8 +1,7 @@
 require 'yaml'
 
 MESSAGES = { eng: YAML.load_file('calculator_messages.yml'),
-             ru: YAML.load_file('calculator_messages_ru.yml')
-}
+             ru: YAML.load_file('calculator_messages_ru.yml') }
 
 def prompt(message)
   puts "=> #{message}"
@@ -25,29 +24,29 @@ def valid_operation?(op)
 end
 
 def operation_message(op_mess, lang)
-  message = if lang == :eng
-              case op_mess
-              when '1'
-                'Adding'
-              when '2'
-                'Substracting'
-              when '3'
-                'Dividing'
-              when '4'
-                'Multiplying'
-              end
-            elsif lang == :ru
-              case op_mess
-              when '1'
-                'Складываю'
-              when '2'
-                'Отнимаю'
-              when '3'
-                'Делю'
-              when '4'
-                'Умножаю'
-              end
-            end
+  if lang == :eng
+    case op_mess
+    when '1'
+      'Adding'
+    when '2'
+      'Substracting'
+    when '3'
+      'Dividing'
+    when '4'
+      'Multiplying'
+    end
+  elsif lang == :ru
+    case op_mess
+    when '1'
+      'Складываю'
+    when '2'
+      'Отнимаю'
+    when '3'
+      'Делю'
+    when '4'
+      'Умножаю'
+    end
+  end
 end
 
 prompt("Choose language: ENG or RU")
@@ -116,12 +115,12 @@ loop do
             end
 
   prompt("#{operation_message(operation, language)}...")
-  
-  prompt(MESSAGES[language]['result'] + "#{result}")
+  prompt(MESSAGES[language]['result'] + result.to_s)
 
   prompt(MESSAGES[language]['repeat'])
 
   repeat = gets.chomp
 
-  break unless repeat.downcase.start_with?('y') || repeat.downcase.start_with?('д')
+  break unless repeat.downcase.start_with?('y')
+  break unless repeat.downcase.start_with?('д')
 end

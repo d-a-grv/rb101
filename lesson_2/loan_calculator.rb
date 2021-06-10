@@ -8,7 +8,7 @@ def name_invalid?(name)
   name.empty? || name == ' '
 end
 
-def valid_number?
+def get_valid_number
   loop do
     number = gets.chomp
 
@@ -32,17 +32,17 @@ end
 
 loop do
   prompt("Ok. #{name}, what's the loan amount?")
-  loan_amount = valid_number?
+  loan_amount = get_valid_number
 
   prompt("What's the annual percentage rate (APR) on your loan?")
-  annual_rate = valid_number?
+  annual_rate = get_valid_number
   monthly_rate = annual_rate.to_f / 1200
 
   prompt("How long is your loan set for (years and months)?\n Years:")
-  loan_duration_years = valid_number?
+  loan_duration_years = get_valid_number
 
   prompt('Months')
-  loan_duration_months = valid_number?
+  loan_duration_months = get_valid_number
   loan_duration = loan_duration_years.to_f * 12 + loan_duration_months.to_f
 
   monthly_payment = (loan_amount.to_f *

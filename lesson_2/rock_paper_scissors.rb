@@ -15,6 +15,12 @@ WIN_PAIRS = { r_sc: %w(rock scissors),
 
 ACTION_MESSAGE = YAML.load_file('rps_messages.yml')
 
+WIN_SCORE = 3
+
+def clear_screen
+  system('clear')
+end
+
 def prompt(message)
   puts "=> #{message}"
 end
@@ -45,11 +51,18 @@ def action(player, computer)
   end
 end
 
+clear_screen
+prompt('Welcome to Rock, Paper, Scissors, Lizard, Spock')
+prompt("To win, you have to get #{WIN_SCORE} points. Good luck! (Press ENTER to continue)")
+continue_input = gets.chomp
+
 loop do
   score = { player: 0,
             computer: 0 }
 
   loop do
+    clear_screen
+
     prompt('Choose your weapon: rock, paper, scissors, lizard or Spock:')
     player_choice = ''
     loop do
@@ -61,7 +74,7 @@ loop do
       end
 
       VALID_CHOICES.each do |each_choice|
-        if each_choice.start_with?(choice)
+        if each_choice.start_with?(player_choice)
           player_choice = each_choice
         end
       end
@@ -83,7 +96,7 @@ loop do
       result = 'Computer gets a point!'
       score[:computer] += 1
     when 'tie'
-      "It's a tie."
+      result = "It's a tie."
     end
 
     message = action(player_choice, computer_choice) + result
@@ -94,17 +107,21 @@ loop do
     prompt('Score:')
     prompt("User: #{score[:player]}")
     prompt("Computer: #{score[:computer]}")
-    if score[:player] == 3
+    if score[:player] == WIN_SCORE
       prompt("Thank you for playing! You won.")
       break
-    elsif score[:computer] == 3
+    elsif score[:computer] == WIN_SCORE
       prompt("Thank you for playing! Computer won.")
       break
     end
+
+    prompt('Ready for the next round? (Press ENTER to continue)')
+    continue_input = gets.chomp
+    break if continue_input.downcase.start_with?('stop')
   end
-  prompt('Would you like to play again? (Y to play again)')
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+  prompt('Would you like to play again? (YES to play again)')
+  again = gets.chomp
+  break unless again.downcase.start_with?('yes')
 end
 
-prompt('Good bye!')
+prompt('Thank you for playing! Live long and prosper!')

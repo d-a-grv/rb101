@@ -1,7 +1,7 @@
 r_sc: 'Rock crushes scissors. '
 p_r: 'Paper covers rock. '
 sc_p: 'Scissors cut paper. '
-l_sp: 'Lizard posions Spock. '
+l_sp: 'Lizard poisons Spock. '
 l_p: 'Lizard eats paper. '
 r_l: 'Rock crushes lizard. '
 sc_l: 'Scissors decapitate lizard. '

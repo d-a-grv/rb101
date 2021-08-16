@@ -1,8 +1,8 @@
 require 'pry'
 
-SUITS = %W(Diamonds Spades Hearts Clubs)
+SUITS = %w(Diamonds Spades Hearts Clubs)
 
-CARDS = %W(2 3 4 5 6 7 8 9 10 Jack Queen King Ace)
+CARDS = %w(2 3 4 5 6 7 8 9 10 Jack Queen King Ace)
 
 LIMIT = 21
 
@@ -26,24 +26,31 @@ def pause
   end
 end
 
+# rubocop:disable Metrics/MethodLength
 def display_rules
   clear_display
   prompt("There's two roles: a dealer and a  player. "\
         "Both are initially dealt 2 cards. "\
-        "The player can see their 2 cards, but only can see one of the dealer's cards.")
+        "The player can see their 2 cards "\
+        "but only can see one of the dealer's cards.")
   div
-  prompt("The goal is to get as close to 21 as possible. If you get more, then you 'bust' and lose.")
+  prompt("The goal is to get as close to 21 as possible. "\
+        "If you get more, then you 'bust' and lose.")
   prompt("Cards 2-10 are worth what they are. J, Q and K are 10 points. "\
-        "And Ace can be either 1 or 11 depending on whether it's going to get one's score over the limit or not.")
+        "And Ace can be either 1 or 11 depending on whether "\
+        "it's going to get one's score over the limit or not.")
   div
-  prompt("The player goes first. They can decide to 'hit' or 'stay'. A hit means getting another card. "\
-          "They can hit as many times as they want. The turn is over when the player either busts or stays. "\
-          "If the player busts, the game is over and the dealer won.")
+  prompt("The player goes first. They can decide to 'hit' or 'stay'. "\
+        "A hit means getting another card. "\
+        "They can hit as many times as they want. "\
+        "The turn is over when the player either busts or stays. "\
+        "If the player busts, the game is over and the dealer won.")
   prompt("The dealer's turn starts when the player decides to stay.")
   div
-  prompt("When both the player and the dealer stays, it's time to compare the total value of the cards "\
-          "and see who has the highest.")
+  prompt("When both the player and the dealer stays, it's time to compare the "\
+        "total value of the cards and see who has the highest.")
 end
+# rubocop:enable Metrics/MethodLength
 
 def user_needs_rules?
   prompt("Do you need to read the rules first?")
@@ -90,14 +97,22 @@ def a_an(card)
   end
 end
 
-def display_hands(player, dealer)
+def display_player_hand(player)
   clear_display
   prompt("Your hand:")
-  player.each {|card| prompt("#{player.index(card) + 1}. #{a_an(card[1])}#{card[1]} of #{card[0]}")}
+  player.each do |card|
+    prompt("#{player.index(card) + 1}. #{a_an(card[1])}#{card[1]} "\
+    "of #{card[0]}")
+  end
   div
   prompt("Your points: #{count_total(player)}")
   div
   div
+end
+
+def display_hands(player, dealer)
+  display_player_hand(player)
+
   prompt("Dealer's hand:")
   prompt("1. #{a_an(dealer[0][1])}#{dealer[0][1]} of #{dealer[0][0]}")
   prompt("2. **only visible to dealer**")
@@ -107,15 +122,13 @@ def display_hands(player, dealer)
 end
 
 def display_open_hands(player, dealer)
-  clear_display
-  prompt("Your hand:")
-  player.each { |card| prompt("#{player.index(card) + 1}. #{a_an(card[1])}#{card[1]} of #{card[0]}") }
-  div
-  prompt("Your points: #{count_total(player)}")
-  div
-  div
+  display_player_hand(player)
+
   prompt("Dealer's hand:")
-  dealer.each { |card| prompt("#{dealer.index(card) + 1}. #{a_an(card[1])}#{card[1]} of #{card[0]}") }
+  dealer.each do |card|
+    prompt("#{dealer.index(card) + 1}. #{a_an(card[1])}#{card[1]} "\
+    "of #{card[0]}")
+  end
   div
   prompt("Dealer's points: #{count_total(dealer)}")
   div
@@ -160,13 +173,12 @@ def cards_to_points(card)
 end
 
 def calculate_ace(points)
-  pre_total = points.select { |el| el.is_a? Integer}.sum
-  if (pre_total + 11) <= LIMIT
-    points[points.index('Ace')] = 11
-  else
-    # binding.pry
-    points[points.index('Ace')] = 1
-  end
+  pre_total = points.select { |el| el.is_a? Integer }.sum
+  points[points.index('Ace')] = if (pre_total + 11) <= LIMIT
+                                  11
+                                else
+                                  1
+                                end
 end
 
 def count_total(hand)
@@ -242,7 +254,6 @@ loop do
   answer = gets.chomp.downcase
 
   break unless answer == 'yes'
-
 end
 div
 prompt("Goodbye! Thanks for playing.")

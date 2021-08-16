@@ -67,28 +67,14 @@ def display_welcome
 end
 
 def initialize_deck
-  deck = Array.new
-  
-  SUITS.each do |suit|
-    CARDS.each do |card|
-      deck << [suit, card]
-    end
-  end
-  
-  deck
-end
-
-def update_deck!(deck, drawn_card)
-  deck.delete_if {|card| card == drawn_card}
+  SUITS.product(CARDS).shuffle
 end
 
 def deal_hand(deck)
   hand = Array.new
 
-  while hand.size < 2
-    card = deck.sample
-    hand << card
-    update_deck!(deck, card)
+  until hand.size == 2
+    hand << deck.pop
   end
 
   hand
@@ -116,7 +102,7 @@ def display_hands(player, dealer)
   prompt("1. #{a_an(dealer[0][1])}#{dealer[0][1]} of #{dealer[0][0]}")
   prompt("2. **only visible to dealer**")
   div
-  prompt('--------------------------------')
+  puts '--------------------------------'
   div
 end
 

@@ -6,6 +6,8 @@ CARDS = %w(2 3 4 5 6 7 8 9 10 Jack Queen King Ace)
 
 LIMIT = 21
 
+HIT_LIMIT = LIMIT - 4
+
 def clear_display
   system 'clear'
 end
@@ -190,8 +192,8 @@ def count_total(hand)
   total.sum
 end
 
-def bust?(hand)
-  count_total(hand) > 21
+def bust?(total)
+  total > 21
 end
 
 def display_player_bust
@@ -203,13 +205,13 @@ def display_dealer_bust
 end
 
 def dealer_turn!(dealer, deck)
-  until count_total(dealer) >= 17
+  until count_total(dealer) >= HIT_LIMIT
     hit!(dealer, deck)
   end
 end
 
-def display_win(player, dealer)
-  case count_total(player) <=> count_total(dealer)
+def display_win(player_total, dealer_total)
+  case player_total <=> dealer_total
   when -1
     prompt("Dealer has more points. You lose. Good luck next time!")
   when 0
@@ -234,7 +236,7 @@ loop do
 
   display_hands(player_hand, dealer_hand)
 
-  if bust?(player_hand)
+  if bust?(player_total)
     display_player_bust
   else
     prompt("It's dealer's turn now.")
